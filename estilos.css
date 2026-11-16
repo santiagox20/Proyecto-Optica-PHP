@@ -1,0 +1,160 @@
+/* Estilos generales para el proyecto de la optica */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Cabecera naranja requerida por el caso de estudio */
+.cabecera {
+    background-color: #FF6600;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilos de formularios de login y registro */
+.contenedor-form {
+    width: 400px;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+.campo-form {
+    margin-bottom: 15px;
+}
+
+.campo-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.campo-form input[type="text"],
+.campo-form input[type="password"],
+.campo-form select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Botones con los colores corporativos */
+.btn-naranja {
+    background-color: #FF6600;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    /* Suaviza el cambio de color durante 0.3 segundos */
+    transition: background-color 0.3s ease; 
+}
+
+/* Efecto al pasar el puntero */
+.btn-naranja:hover {
+    background-color: #17a2b8; 
+}
+
+
+.btn-cyan { 
+    background-color: #17a2b8; 
+    color: white; 
+    border: none; 
+    padding: 5px 10px; 
+    text-decoration: none; 
+    border-radius: 3px; 
+    /* Suaviza la transición de color */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Efecto al pasar el puntero */
+.btn-cyan:hover { 
+    background-color: #FF6600; /* Pasa a tu naranja corporativo */
+    
+}
+
+.btn-yellow { background-color: #ffc107; color: black; border: none; padding: 5px 10px; text-decoration: none; border-radius: 3px; }
+.btn-red { background-color: #dc3545; color: white; border: none; padding: 5px 10px; text-decoration: none; border-radius: 3px; }
+
+/* Estilos de tablas para la lista de pacientes e historias */
+table {
+    width: 95%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: white;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+
+
+/* Alineación de la cabecera para dar espacio al menú */
+.cabecera {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+}
+
+/* Ocultar el checkbox real */
+#toggle-menu {
+    display: none;
+}
+
+/* Estilo del botón de tres líneas (hamburguesa) */
+.icono-hamburguesa {
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    padding: 5px 10px;
+}
+
+/* Panel lateral oculto por defecto */
+.panel-lateral {
+    position: fixed;
+    top: 0;
+    left: -280px; /* Esconde el menú a la izquierda */
+    width: 250px;
+    height: 100%;
+    background-color: #333333; /* Color de fondo oscuro para el menú */
+    padding: 80px 15px 20px 15px;
+    box-shadow: 2px 0px 5px rgba(0,0,0,0.5);
+    transition: left 0.3s ease; /* Transmisión suave al abrir */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Separación vertical entre botones */
+    z-index: 999;
+}
+
+/* Estilos adaptados para tus botones dentro del menú */
+.panel-lateral .btn-naranja, 
+.panel-lateral .btn-cyan {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Cuando el checkbox está activo (haces clic en el icono), muestra el panel */
+#toggle-menu:checked ~ .panel-lateral {
+    left: 0;
+}
