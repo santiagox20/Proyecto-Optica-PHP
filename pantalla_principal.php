@@ -9,6 +9,15 @@ require_once 'paciente.php'; // Importamos el modelo Paciente
 require_once 'historia.php'; // Importamos el modelo HistoriaClinica
 
 $objPaciente = new Paciente(); // Instanciamos el objeto Paciente
+
+// Procesa la anulacion  antes de consultar pacientes o imprimir HTML
+if (isset($_GET['anular_id'])) {
+    $id_anular = (int) $_GET['anular_id']; // Convierte el ID a numero entero
+    $objPaciente->anularPaciente($id_anular); // Llama al metodo que cambia el estado a Inactivo
+    header("Location: pantalla_principal.php"); // Recarga la pagina limpia sin el parametro en la URL
+    exit();
+}
+
 $pacientes = $objPaciente->obtenerPacientesActivos(); // Traemos solo los pacientes que tienen estado Activo
 
 $objHistoria = new HistoriaClinica(); // Instanciamos el objeto HistoriaClinica
@@ -19,37 +28,40 @@ $vista = isset($_GET['vista']) ? $_GET['vista'] : 'pacientes';
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Optica Sena - Pantalla Principal</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
+
 <body>
-    
+
     <div class="cabecera">
-    <!-- Menu lateral desplegable hecho solo con HTML y CSS usando un checkbox oculto -->
-    <div class="menu-hamburguesa">
-        <input type="checkbox" id="toggle-menu"> <!-- Interruptor invisible que controla si el menu abre o cierra -->
-        <label for="toggle-menu" class="icono-hamburguesa">&#9776;</label> <!-- Icono de las 3 rayitas que activa el checkbox -->
-        
-        <div class="panel-lateral"> <!-- Menu que se desliza desde la izquierda con las 3 opciones principales -->
-            <a href="registrar_paciente.php" class="btn-naranja">Registrar Paciente</a>
-            <a href="pantalla_principal.php?vista=pacientes" class="btn-cyan">Consultar Pacientes</a>
-            <a href="pantalla_principal.php?vista=historias" class="btn-cyan">Consultar Historias</a>
+        <!-- Menu lateral desplegable hecho solo con HTML y CSS usando un checkbox oculto -->
+        <div class="menu-hamburguesa">
+            <input type="checkbox" id="toggle-menu"> <!-- Interruptor invisible que controla si el menu abre o cierra -->
+            <label for="toggle-menu" class="icono-hamburguesa">&#9776;</label> <!-- Icono de las 3 rayitas que activa el checkbox -->
+
+            <div class="panel-lateral"> <!-- Menu que se desliza desde la izquierda con las 3 opciones principales -->
+                <a href="registrar_paciente.php" class="btn-naranja">Registrar Paciente</a>
+                <a href="pantalla_principal.php?vista=pacientes" class="btn-cyan">Consultar Pacientes</a>
+                <a href="pantalla_principal.php?vista=historias" class="btn-cyan">Consultar Historias</a>
+            </div>
+        </div>
+
+        <h2>Bienvenidos a la Optica Sena</h2>
+
+        <div>
+            <span>Usuario conectado: <?php echo $_SESSION['usuario']; ?> - Rol:
+                <?php echo $_SESSION['rol']; ?></span> <!-- Imprimimos el nombre y cargo guardados en la sesion -->
+            <a href="logout.php" style="color: white; margin-left: 15px;">Cerrar Sesion</a> <!-- Enlace al archivo que destruye la sesion -->
         </div>
     </div>
 
-    <h2>Bienvenidos a la Optica Sena</h2>
-    
-    <div>
--        <span>Usuario conectado: <?php echo $_SESSION['usuario']; ?>Rol: 
-<?php echo $_SESSION['rol']; ?></span> <!-- Imprimimos el nombre y cargo guardados en la sesion -->
-        <a href="logout.php" style="color: white; margin-left: 15px;">Cerrar Sesion</a> <!-- Enlace al archivo que destruye la sesion -->
-    </div>
-</div>
 
-
-    <?php if ($vista == 'pacientes'): // Si la vista activa es pacientes, dibujamos la tabla de pacientes ?>
+    <?php if ($vista == 'pacientes'): // Si la vista activa es pacientes, dibujamos la tabla de pacientes 
+    ?>
         <h3 style="margin-left: 20px;">Listado de Pacientes</h3>
         <table>
             <thead>
@@ -63,7 +75,7 @@ $vista = isset($_GET['vista']) ? $_GET['vista'] : 'pacientes';
                 </tr>
             </thead>
             <tbody>
-                <?php 
+                <?php
                 foreach ($pacientes as $p) { // Recorremos cada paciente activo para crear su fila en la tabla
                     echo "<tr>";
                     echo "<td>" . $p['pac_docum'] . "</td>"; // Mostramos documento
@@ -78,11 +90,11 @@ $vista = isset($_GET['vista']) ? $_GET['vista'] : 'pacientes';
                         </td>"; // Pasamos el ID del paciente por GET en los botones de accion; Anular pide confirmacion con JS
                     echo "</tr>";
                 }
-                
                 ?>
             </tbody>
         </table>
-    <?php else: // Si la vista no es pacientes (es decir, vista=historias), dibujamos la tabla de historias clinicas ?>
+    <?php else: // Si la vista no es pacientes (es decir, vista=historias), dibujamos la tabla de historias clinicas 
+    ?>
         <h3 style="margin-left: 20px;">Listado de Historias Clinicas</h3>
         <table>
             <thead>
@@ -95,7 +107,7 @@ $vista = isset($_GET['vista']) ? $_GET['vista'] : 'pacientes';
                 </tr>
             </thead>
             <tbody>
-                <?php 
+                <?php
                 foreach ($historias as $h) { // Recorremos todas las historias clinicas para pintar cada fila
                     echo "<tr>";
                     echo "<td>" . $h['hist_id'] . "</td>"; // Numero consecutivo de la historia
@@ -110,12 +122,6 @@ $vista = isset($_GET['vista']) ? $_GET['vista'] : 'pacientes';
         </table>
     <?php endif; ?>
 
-    <?php
-    if (isset($_GET['anular_id'])) { // Detectamos si se envio el parametro anular_id por la URL
-        $id_anular = $_GET['anular_id']; // Capturamos el ID del paciente a inactivar
-        #$objPaciente->anularPaciente($id_anular); // Llama al borrado logico (esta comentado actualmente con #)
-        echo "<script>window.location.href='pantalla_principal.php';</script>"; // Recargamos la vista limpia sin parametros en la URL
-    }
-    ?>
 </body>
+
 </html>

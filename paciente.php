@@ -9,7 +9,7 @@ class Paciente { // Modelo encargado de todas las operaciones CRUD de los pacien
     }
 
     // Metodo para registrar un paciente nuevo y asociarle sus hobbies en la tabla intermedia
-    public function guardarPaciente($doc, $nom, $ape, $dir, $tel, $cor, $gen_id, $estr_id, $hobbies) {
+    public function guardarPaciente(int $doc, string $nom, string $ape, string $dir, string $tel, string $cor, int $gen_id, int $estr_id, array $hobbies) {
         $con = $this->db->obtenerConexion(); // Abrimos conexion a MySQL
         
         // Preparamos el INSERT en la tabla paciente dejando su estado inicial como 'Activo'
@@ -55,7 +55,7 @@ class Paciente { // Modelo encargado de todas las operaciones CRUD de los pacien
     }
 
     // Metodo para buscar un paciente especifico por su ID (usado al editar o al crearle historia)
-    public function obtenerPacientePorId($pac_id) {
+    public function obtenerPacientePorId(int $pac_id) {
         $con = $this->db->obtenerConexion(); // Abrimos conexion
         // Traemos todos los datos del paciente junto con el nombre de su genero y estrato
         $query = "SELECT p.*, g.gen_nombre, e.estr_nombre 
@@ -71,7 +71,7 @@ class Paciente { // Modelo encargado de todas las operaciones CRUD de los pacien
     }
 
     // Metodo para guardar los cambios cuando se edita un paciente
-    public function actualizarPaciente($pac_id, $nom, $ape, $tel, $gen_id, $estr_id) {
+    public function actualizarPaciente(int $pac_id,string $nom, string $ape, string $tel, int $gen_id, int $estr_id) {
         $con = $this->db->obtenerConexion(); // Abrimos conexion
         // Ejecutamos UPDATE filtrando estrictamente por el ID del paciente para no modificar otros registros
         $query = "UPDATE paciente SET pac_nombre = '$nom', pac_apellido = '$ape', pac_telefono = '$tel', gen_id = '$gen_id', estr_id = '$estr_id' 
@@ -83,7 +83,7 @@ class Paciente { // Modelo encargado de todas las operaciones CRUD de los pacien
     }
 
     // Metodo de borrado logico: no borra el registro de la BD para proteger sus historias clinicas
-    public function anularPaciente($pac_id) {
+    public function anularPaciente(int $pac_id) {
         $con = $this->db->obtenerConexion(); // Abrimos conexion
         $query = "UPDATE paciente SET pac_estado = 'Inactivo' WHERE pac_id = '$pac_id'"; // Cambiamos su estado a Inactivo
         
